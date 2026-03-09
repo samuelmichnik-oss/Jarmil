@@ -7,8 +7,7 @@
 
 | Úkol | Stav | Poznámky |
 |------|------|----------|
-| Vybrat programovací jazyk (např. Python nebo JavaScript) | Nezačato | |
-| Nastavit editor kódu | Nezačato | |
+| Vybrat programovací jazyk (např. Python nebo JavaScript) | hotovo | |
 | Implementovat jednoduchou grafiku pro hada a jídlo | Nezačato | |
 | Implementovat logiku pohybu, kolizí a skóre | Nezačato | |
 | Přidat ovládání šipkami | Nezačato | |
