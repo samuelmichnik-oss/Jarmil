@@ -25,6 +25,9 @@ pygame.display.set_caption("Snake Game")
 clock = pygame.time.Clock()
 FPS = 10
 
+# Font for score
+font = pygame.font.SysFont(None, 36)
+
 # -------------------
 # Game objects
 # -------------------
@@ -32,6 +35,7 @@ snake = [(WIDTH // 2, HEIGHT // 2)]
 snake_dir = "UP"
 food = (random.randrange(0, WIDTH, CELL_SIZE),
         random.randrange(0, HEIGHT, CELL_SIZE))
+score = 0  # initialize score
 
 # -------------------
 # Functions
@@ -46,11 +50,15 @@ def draw_objects():
     # Draw food
     pygame.draw.rect(screen, RED, (food[0], food[1], CELL_SIZE, CELL_SIZE))
 
+    # Draw score
+    score_text = font.render(f"Score: {score}", True, WHITE)
+    screen.blit(score_text, (10, 10))
+
     pygame.display.update()
 
 
 def move_snake():
-    global food
+    global food, score
 
     x, y = snake[0]
 
@@ -68,6 +76,7 @@ def move_snake():
 
     # Check if food eaten
     if new_head == food:
+        score += 1  # increase score
         food = (random.randrange(0, WIDTH, CELL_SIZE),
                 random.randrange(0, HEIGHT, CELL_SIZE))
     else:
@@ -106,7 +115,7 @@ while running:
     move_snake()
 
     if check_collision():
-        print("Game Over!")
+        print(f"Game Over! Your score: {score}")
         running = False
 
     draw_objects()
