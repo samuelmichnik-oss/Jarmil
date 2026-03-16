@@ -2,46 +2,58 @@ import pygame
 import random
 import sys
 
-# Inicializace pygame
+# -------------------
+# Initialization
+# -------------------
 pygame.init()
 
-# Rozměry okna
-WIDTH = 600
-HEIGHT = 400
+# Window settings
+WIDTH, HEIGHT = 600, 400
 CELL_SIZE = 20
 
-# Barvy
-White = (255, 255, 255)
-Black = (0, 0, 0)
-Green = (0, 255, 0)
-Red = (255, 0, 0)
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
 
-# Nastavení okna
+# Screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Had (Snake)")
+pygame.display.set_caption("Snake Game")
 
-# Hodiny pro FPS
+# Clock for FPS
 clock = pygame.time.Clock()
-# Had (seznam částí těla)
-snake = [(WIDTH//2, HEIGHT//2)]
-snake_dir = "UP"
+FPS = 10
 
-# Jídlo
+# -------------------
+# Game objects
+# -------------------
+snake = [(WIDTH // 2, HEIGHT // 2)]
+snake_dir = "UP"
 food = (random.randrange(0, WIDTH, CELL_SIZE),
         random.randrange(0, HEIGHT, CELL_SIZE))
-def draw_objects():
-    screen.fill(BLACK)  # pozadí
 
-    # Had
+# -------------------
+# Functions
+# -------------------
+def draw_objects():
+    screen.fill(BLACK)  # background
+
+    # Draw snake
     for segment in snake:
         pygame.draw.rect(screen, GREEN, (segment[0], segment[1], CELL_SIZE, CELL_SIZE))
 
-    # Jídlo
+    # Draw food
     pygame.draw.rect(screen, RED, (food[0], food[1], CELL_SIZE, CELL_SIZE))
 
     pygame.display.update()
+
+
 def move_snake():
+    global food
+
     x, y = snake[0]
+
     if snake_dir == "UP":
         y -= CELL_SIZE
     elif snake_dir == "DOWN":
@@ -52,4 +64,52 @@ def move_snake():
         x += CELL_SIZE
 
     new_head = (x, y)
-    snake.insert(0, new_head)  # přidáme novou hlavu
+    snake.insert(0, new_head)
+
+    # Check if food eaten
+    if new_head == food:
+        food = (random.randrange(0, WIDTH, CELL_SIZE),
+                random.randrange(0, HEIGHT, CELL_SIZE))
+    else:
+        snake.pop()  # remove tail to keep length
+
+def check_collision():
+    head = snake[0]
+    # Wall collision
+    if head[0] < 0 or head[0] >= WIDTH or head[1] < 0 or head[1] >= HEIGHT:
+        return True
+    # Self collision
+    if head in snake[1:]:
+        return True
+    return False
+
+# -------------------
+# Main game loop
+# -------------------
+running = True
+while running:
+    clock.tick(FPS)
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP and snake_dir != "DOWN":
+                snake_dir = "UP"
+            elif event.key == pygame.K_DOWN and snake_dir != "UP":
+                snake_dir = "DOWN"
+            elif event.key == pygame.K_LEFT and snake_dir != "RIGHT":
+                snake_dir = "LEFT"
+            elif event.key == pygame.K_RIGHT and snake_dir != "LEFT":
+                snake_dir = "RIGHT"
+
+    move_snake()
+
+    if check_collision():
+        print("Game Over!")
+        running = False
+
+    draw_objects()
+
+pygame.quit()
+sys.exit()
