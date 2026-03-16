@@ -11,7 +11,7 @@ HEIGHT = 400
 CELL_SIZE = 20
 
 # Barvy
-Bílá = (255, 255, 255)
+White = (255, 255, 255)
 černá = (0, 0, 0)
 zelená = (0, 255, 0)
 červená = (255, 0, 0)
