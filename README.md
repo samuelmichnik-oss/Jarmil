@@ -10,7 +10,7 @@ Když had sní jídlo, zvětší se. Hra končí, když had narazí do zdi nebo 
 * ovládání hada pomocí šipek
 * sbírání jídla
 * růst hada
-* konec hry při kolizi
+* konec hry při nabourani
 
 ## Ovládání
 
@@ -25,7 +25,7 @@ Když had sní jídlo, zvětší se. Hra končí, když had narazí do zdi nebo 
 2. otevři terminál
 3. spusť soubor:
 
-python main.py
+Snake_hra_projekt.py
 
 ## Technologie
 
