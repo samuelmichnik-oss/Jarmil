@@ -1,105 +1,35 @@
-# Snake Game – Python (Pygame)
+# Snake Game
 
-##  Projekt
+## Popis
 
-Jednoduchá hra **Had** vytvořená v jazyce **Python** pomocí knihovny **Pygame**.
-Cílem hry je sbírat jídlo, zvětšovat hada a vyhnout se kolizi se zdí nebo vlastním tělem.
+Tento projekt je jednoduchá hra Snake. Hráč ovládá hada, který se pohybuje po obrazovce a sbírá jídlo.
+Když had sní jídlo, zvětší se. Hra končí, když had narazí do zdi nebo do sebe.
 
----
+## Funkce
 
-## 🎯 Cíl projektu
-
-* naučit se základy práce s knihovnou **Pygame**
-* vytvořit jednoduchou 2D hru
-* pochopit herní smyčku, pohyb objektů a kolize
-
----
-
-## 🛠 Použité technologie
-
-* **Python 3**
-* **Pygame**
-
----
-
-## Spuštění projektu
-
-1. Nainstaluj Python
-2. Nainstaluj knihovnu pygame
-
-```bash
-pip install pygame
-```
-
-3. Spusť soubor
-
-```bash
-python snake.py
-```
-
----
+* ovládání hada pomocí šipek
+* sbírání jídla
+* růst hada
+* konec hry při kolizi
 
 ## Ovládání
 
-| Klávesa | Funkce        |
-| ------- | ------------- |
-| ↑       | pohyb nahoru  |
-| ↓       | pohyb dolů    |
-| ←       | pohyb doleva  |
-| →       | pohyb doprava |
+* ↑ pohyb nahoru
+* ↓ pohyb dolů
+* ← pohyb doleva
+* → pohyb doprava
 
----
+## Spuštění hry
 
-## Struktura projektu
+1. stáhni projekt
+2. otevři terminál
+3. spusť soubor:
 
-```
-snake-game
-│
-├── snake.py
-└── README.md
-```
+python main.py
 
----
+## Technologie
 
-## Funkce hry
-
-* pohyb hada po obrazovce
-* generování jídla na náhodném místě
-* růst hada po sebrání jídla
-* detekce kolize
-
----
-
-## Stav projektu
-
-**Datum zápisu:** 09.03.2026
-**Stav:** Rozpracované
-
-### To-Do List
-
-| Úkol                                               | Stav       | Poznámky  |
-| -------------------------------------------------- | ---------- | --------- |
-| Vybrat programovací jazyk                          | ✅ Hotovo   | Python    |
-| Implementovat jednoduchou grafiku pro hada a jídlo | ⏳ Probíhá  |           |
-| Implementovat logiku pohybu, kolizí a skóre        | ⏳ Probíhá  |           |
-| Přidat ovládání šipkami                            | ⏳ Probíhá  |           |
-| Otestovat hru                                      | ❌ Nezačato |           |
-| Přidat doplňky (zvuky, rychlost)                   | ❌ Nezačato | Volitelné |
-
----
-
-## 💡 Možná vylepšení
-
-* zvyšování rychlosti hada
-* ukládání **high score**
-* zvuk při sebrání jídla
-* menu hry
-* lepší grafika
-
----
+* Python
 
 ## Autor
-
-Samuel Michnik
-Školní projekt – 2026
-
+[Samuel Michnik]
