@@ -12,9 +12,9 @@ CELL_SIZE = 20
 
 # Barvy
 White = (255, 255, 255)
-černá = (0, 0, 0)
-zelená = (0, 255, 0)
-červená = (255, 0, 0)
+Black = (0, 0, 0)
+Green = (0, 255, 0)
+Red = (255, 0, 0)
 
 # Nastavení okna
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
