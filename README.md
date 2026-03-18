@@ -12,13 +12,6 @@ Když had sní jídlo, zvětší se. Hra končí, když had narazí do zdi nebo 
 * růst hada
 * konec hry při nabourani
 
-## Ovládání
-
-* ↑ pohyb nahoru
-* ↓ pohyb dolů
-* ← pohyb doleva
-* → pohyb doprava
-
 ## Spuštění hry
 
 1. stáhni projekt
