@@ -1,18 +1,18 @@
 # Snake Game
 
-## Popis
+# Popis
 
 Tento projekt je jednoduchá hra Snake. Hráč ovládá hada, který se pohybuje po obrazovce a sbírá jídlo.
 Když had sní jídlo, zvětší se. Hra končí, když had narazí do zdi nebo do sebe.
 
-## Funkce
+# Funkce
 
 * ovládání hada pomocí šipek
 * sbírání jídla
 * růst hada
 * konec hry při nabourani
 
-## Spuštění hry
+# Spuštění hry
 
 1. stáhni projekt
 2. otevři terminál
@@ -20,9 +20,9 @@ Když had sní jídlo, zvětší se. Hra končí, když had narazí do zdi nebo 
 
 Snake_hra_projekt.py
 
-## Technologie
+# Technologie
 
 * Python
 
-## Autor
-[Samuel Michnik]
+# Autor
+Samuel Michnik (Jarmil)
