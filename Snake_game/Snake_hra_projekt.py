@@ -1,13 +1,12 @@
 import pygame
 import random
 import sys
-import os
 
 # -------------------
 # Initialization
 # -------------------
 pygame.init()
-pygame.mixer.init()  # for sound
+pygame.mixer.init()
 
 # Window settings
 WIDTH, HEIGHT = 800, 600
@@ -36,13 +35,11 @@ large_font = pygame.font.SysFont(None, 72)
 
 # High score file
 HIGH_SCORE_FILE = "highscore.txt"
-if not os.path.exists(HIGH_SCORE_FILE):
+if not pygame.os.path.exists(HIGH_SCORE_FILE):
     with open(HIGH_SCORE_FILE, "w") as f:
         f.write("0")
 
-# -------------------
 # Game objects
-# -------------------
 def get_random_cell():
     return (random.randrange(0, WIDTH, CELL_SIZE),
             random.randrange(0, HEIGHT, CELL_SIZE))
@@ -55,18 +52,48 @@ level = 1
 obstacles = []
 power_up = None
 power_up_timer = 0
-speed_increase_rate = 0.5
+speed_increase_rate = 1
 
-# Sounds
-eat_sound = pygame.mixer.Sound(pygame.mixer.Sound(pygame.mixer.get_init()))
-pygame.mixer.Sound.set_volume(eat_sound, 0.2)
-game_over_sound = pygame.mixer.Sound(pygame.mixer.Sound(pygame.mixer.get_init()))
+eat_sound = None
+game_over_sound = None
+
+# -------------------
+# Galaxy Background
+# -------------------
+def draw_galaxy_background():
+    screen.fill(BLACK)
+    for _ in range(100):  # random stars
+        x = random.randint(0, WIDTH)
+        y = random.randint(0, HEIGHT)
+        color = random.choice([WHITE, YELLOW, (200, 200, 255)])
+        screen.set_at((x, y), color)
+
+# -------------------
+# Intro Screen
+# -------------------
+def intro_screen():
+    intro = True
+    while intro:
+        draw_galaxy_background()
+        text = large_font.render("Jezte pouze červenou!", True, RED)
+        instruction = font.render("Stiskněte SPACE pro start", True, WHITE)
+        screen.blit(text, (WIDTH//2 - text.get_width()//2, HEIGHT//2 - 50))
+        screen.blit(instruction, (WIDTH//2 - instruction.get_width()//2, HEIGHT//2 + 20))
+        pygame.display.update()
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    intro = False
 
 # -------------------
 # Functions
 # -------------------
 def draw_objects(snake, food, score, obstacles, power_up):
-    screen.fill(BLACK)
+    draw_galaxy_background()
     
     # Draw snake
     for segment in snake:
@@ -109,33 +136,29 @@ def move_snake(snake, snake_dir):
 
 def check_collision(snake, obstacles):
     head = snake[0]
-    # Wall collision
     if head[0] < 0 or head[0] >= WIDTH or head[1] < 0 or head[1] >= HEIGHT:
         return True
-    # Self collision
     if head in snake[1:]:
         return True
-    # Obstacle collision
     if head in obstacles:
         return True
     return False
 
 def game_over_screen(score):
-    # Play sound
-    pygame.mixer.Sound.play(game_over_sound)
+    screen.fill(BLACK)
+    over_text = large_font.render("GAME OVER", True, RED)
+    score_text = font.render(f"Your Score: {score}", True, WHITE)
     
-    # Read high score
+    # High score
+    if not pygame.os.path.exists(HIGH_SCORE_FILE):
+        with open(HIGH_SCORE_FILE, "w") as f:
+            f.write("0")
     with open(HIGH_SCORE_FILE, "r") as f:
         high_score = int(f.read())
-    
     if score > high_score:
         high_score = score
         with open(HIGH_SCORE_FILE, "w") as f:
             f.write(str(high_score))
-    
-    screen.fill(BLACK)
-    over_text = large_font.render("GAME OVER", True, RED)
-    score_text = font.render(f"Your Score: {score}", True, WHITE)
     high_text = font.render(f"High Score: {high_score}", True, WHITE)
     restart_text = font.render("Press R to Restart or Q to Quit", True, WHITE)
     
@@ -161,13 +184,25 @@ def game_over_screen(score):
                     sys.exit()
 
 def spawn_obstacles(level):
-    obs_list = []
-    for _ in range(level + 2):
-        obs_list.append(get_random_cell())
-    return obs_list
+    return [get_random_cell() for _ in range(level + 2)]
 
 def spawn_power_up():
     return get_random_cell()
+
+def pause_game():
+    paused = True
+    pause_text = large_font.render("PAUSED", True, BLUE)
+    screen.blit(pause_text, (WIDTH//2 - pause_text.get_width()//2, HEIGHT//2 - 50))
+    pygame.display.update()
+    
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    paused = False
 
 def main_game():
     global snake, snake_dir, food, score, level, obstacles, power_up, power_up_timer, FPS
@@ -204,54 +239,34 @@ def main_game():
         
         snake = move_snake(snake, snake_dir)
         
-        # Check collisions
         if check_collision(snake, obstacles):
             game_over_screen(score)
             running = False
         
-        # Check food
         if snake[0] == food:
-            pygame.mixer.Sound.play(eat_sound)
             score += 1
             food = get_random_cell()
-            # Increase level every 5 points
             if score % 5 == 0:
                 level += 1
                 obstacles = spawn_obstacles(level)
                 current_fps += speed_increase_rate
         else:
-            snake.pop()  # remove tail
+            snake.pop()
         
-        # Spawn power-up occasionally
         power_up_timer += 1
         if power_up_timer > 200 and not power_up:
             power_up = spawn_power_up()
             power_up_timer = 0
         
-        # Check power-up
         if power_up and snake[0] == power_up:
             score += 3
             power_up = None
         
         draw_objects(snake, food, score, obstacles, power_up)
 
-def pause_game():
-    paused = True
-    pause_text = large_font.render("PAUSED", True, BLUE)
-    screen.blit(pause_text, (WIDTH//2 - pause_text.get_width()//2, HEIGHT//2 - 50))
-    pygame.display.update()
-    
-    while paused:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
-                    paused = False
-
 # -------------------
 # Start the game
 # -------------------
 if __name__ == "__main__":
+    intro_screen()
     main_game()
