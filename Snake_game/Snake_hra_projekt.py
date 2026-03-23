@@ -1,6 +1,7 @@
 import pygame
 import random
 import sys
+import os
 
 # -------------------
 # Initialization
@@ -29,17 +30,19 @@ pygame.display.set_caption("Snake Game Deluxe")
 clock = pygame.time.Clock()
 FPS = 10
 
-# Font
+# Fonts
 font = pygame.font.SysFont(None, 36)
 large_font = pygame.font.SysFont(None, 72)
 
 # High score file
 HIGH_SCORE_FILE = "highscore.txt"
-if not pygame.os.path.exists(HIGH_SCORE_FILE):
+if not os.path.exists(HIGH_SCORE_FILE):
     with open(HIGH_SCORE_FILE, "w") as f:
         f.write("0")
 
+# -------------------
 # Game objects
+# -------------------
 def get_random_cell():
     return (random.randrange(0, WIDTH, CELL_SIZE),
             random.randrange(0, HEIGHT, CELL_SIZE))
@@ -54,17 +57,14 @@ power_up = None
 power_up_timer = 0
 speed_increase_rate = 1
 
-eat_sound = None
-game_over_sound = None
-
 # -------------------
 # Galaxy Background
 # -------------------
 def draw_galaxy_background():
     screen.fill(BLACK)
     for _ in range(100):  # random stars
-        x = random.randint(0, WIDTH)
-        y = random.randint(0, HEIGHT)
+        x = random.randint(0, WIDTH-1)
+        y = random.randint(0, HEIGHT-1)
         color = random.choice([WHITE, YELLOW, (200, 200, 255)])
         screen.set_at((x, y), color)
 
@@ -90,36 +90,39 @@ def intro_screen():
                     intro = False
 
 # -------------------
-# Functions
+# Draw game objects
 # -------------------
-def draw_objects(snake, food, score, obstacles, power_up):
+def draw_objects(snake, food, score, obstacles, power_up, level):
     draw_galaxy_background()
     
-    # Draw snake
+    # Snake
     for segment in snake:
         pygame.draw.rect(screen, GREEN, (*segment, CELL_SIZE, CELL_SIZE))
     
-    # Draw food
+    # Food
     pygame.draw.rect(screen, RED, (*food, CELL_SIZE, CELL_SIZE))
     
-    # Draw obstacles
+    # Obstacles
     for obs in obstacles:
         pygame.draw.rect(screen, ORANGE, (*obs, CELL_SIZE, CELL_SIZE))
     
-    # Draw power-up
+    # Power-up
     if power_up:
         pygame.draw.rect(screen, YELLOW, (*power_up, CELL_SIZE, CELL_SIZE))
     
-    # Draw score
+    # Score
     score_text = font.render(f"Score: {score}", True, WHITE)
     screen.blit(score_text, (10, 10))
     
-    # Draw level
+    # Level
     level_text = font.render(f"Level: {level}", True, WHITE)
     screen.blit(level_text, (WIDTH - 120, 10))
     
     pygame.display.update()
 
+# -------------------
+# Move Snake
+# -------------------
 def move_snake(snake, snake_dir):
     x, y = snake[0]
     if snake_dir == "UP":
@@ -134,6 +137,9 @@ def move_snake(snake, snake_dir):
     snake.insert(0, new_head)
     return snake
 
+# -------------------
+# Check collisions
+# -------------------
 def check_collision(snake, obstacles):
     head = snake[0]
     if head[0] < 0 or head[0] >= WIDTH or head[1] < 0 or head[1] >= HEIGHT:
@@ -144,13 +150,16 @@ def check_collision(snake, obstacles):
         return True
     return False
 
+# -------------------
+# Game Over
+# -------------------
 def game_over_screen(score):
     screen.fill(BLACK)
     over_text = large_font.render("GAME OVER", True, RED)
     score_text = font.render(f"Your Score: {score}", True, WHITE)
     
     # High score
-    if not pygame.os.path.exists(HIGH_SCORE_FILE):
+    if not os.path.exists(HIGH_SCORE_FILE):
         with open(HIGH_SCORE_FILE, "w") as f:
             f.write("0")
     with open(HIGH_SCORE_FILE, "r") as f:
@@ -183,12 +192,18 @@ def game_over_screen(score):
                     pygame.quit()
                     sys.exit()
 
+# -------------------
+# Spawn obstacles and power-ups
+# -------------------
 def spawn_obstacles(level):
     return [get_random_cell() for _ in range(level + 2)]
 
 def spawn_power_up():
     return get_random_cell()
 
+# -------------------
+# Pause
+# -------------------
 def pause_game():
     paused = True
     pause_text = large_font.render("PAUSED", True, BLUE)
@@ -204,6 +219,9 @@ def pause_game():
                 if event.key == pygame.K_p:
                     paused = False
 
+# -------------------
+# Main Game Loop
+# -------------------
 def main_game():
     global snake, snake_dir, food, score, level, obstacles, power_up, power_up_timer, FPS
     
@@ -262,7 +280,7 @@ def main_game():
             score += 3
             power_up = None
         
-        draw_objects(snake, food, score, obstacles, power_up)
+        draw_objects(snake, food, score, obstacles, power_up, level)
 
 # -------------------
 # Start the game
