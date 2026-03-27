@@ -1,6 +1,6 @@
 # Snake Game Project
 
-Tento projekt je jednoduchá hra **Snake** vytvořená v Pythonu s knihovnou Pygame.  
+Tento projekt je jednoduchá hra *Snake* vytvořená v Pythonu s knihovnou Pygame. 
 
 ## Historie pokroku
 
