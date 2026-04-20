@@ -80,10 +80,10 @@ snake-game
 | Úkol                                               | Stav       | Poznámky  |
 | -------------------------------------------------- | ---------- | --------- |
 | Vybrat programovací jazyk                          | ✅ Hotovo   | Python    |
-| Implementovat jednoduchou grafiku pro hada a jídlo | ⏳ Probíhá  |           |
-| Implementovat logiku pohybu, kolizí a skóre        | ⏳ Probíhá  |           |
-| Přidat ovládání šipkami                            | ⏳ Probíhá  |           |
-| Otestovat hru                                      | ❌ Nezačato |           |
+| Implementovat jednoduchou grafiku pro hada a jídlo | ✅ Hotovo   |           |
+| Implementovat logiku pohybu, kolizí a skóre        | ✅ Hotovo  |           |
+| Přidat ovládání šipkami                            | ✅ Hotovo   |           |
+| Otestovat hru                                      | ✅ Hotovo  |           |
 | Přidat doplňky (zvuky, rychlost)                   | ❌ Nezačato | Volitelné |
 
 ---
