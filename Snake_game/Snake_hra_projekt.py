@@ -183,3 +183,4 @@ main()
 if __name__ == "__main__":
     intro_screen()
     main_game()
+    if __name__ == "__main__": main()
