@@ -1,11 +1,9 @@
 import pygame
 import random
 import sys
-
 #Spustí Pygame a zvukový systém
 pygame.init()
 pygame.mixer.init()
-
 # -------------------
 # Settings
 # -------------------
@@ -31,7 +29,6 @@ DIRS = {
     "RIGHT": (CELL, 0)
 }
 OPPOSITE = {"UP":"DOWN","DOWN":"UP","LEFT":"RIGHT","RIGHT":"LEFT"}
-
 # -------------------
 # Helpers
 # -------------------
