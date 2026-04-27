@@ -4,9 +4,9 @@ import sys
 #Spustí Pygame a zvukový systém
 pygame.init()
 pygame.mixer.init()
-# -------------------
+#-----------------
 # Settings
-# -------------------
+#-------------------
 WIDTH, HEIGHT = 800, 600
 CELL = 20
 FPS = 10
@@ -48,7 +48,6 @@ def draw_bg():
     screen.fill(BLACK)
     for x, y in stars:
         screen.set_at((x, y), WHITE)
-
 # -------------------
 # Game
 # -------------------
