@@ -2,7 +2,7 @@
 
 ##  Projekt
 
-Jednoduchá hra **Had** vytvořená v jazyce **Python** pomocí knihovny **Pygame**.
+Jednoduchá hra had vytvořená v jazyce **Python** pomocí knihovny **Pygame**.
 Cílem hry je sbírat jídlo, zvětšovat hada a vyhnout se kolizi se zdí nebo vlastním tělem.
 
 ---
