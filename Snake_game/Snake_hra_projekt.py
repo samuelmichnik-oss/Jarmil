@@ -140,8 +140,8 @@ def main():
             if power and head == power:
             score += 3
             power = None
-        #vykreslení
-        # draw
+            #vykreslení
+            # draw
         
         draw_bg()  #udělá:černé pozadí,hvězdičky
         draw_rects(snake, GREEN)
@@ -158,7 +158,7 @@ def main():
         pygame.display.update()
 
 # -------------------
-# Pause
+# =Pause
 # -------------------
 def pause():
     txt = font.render("PAUSED (P)", True, WHITE)
