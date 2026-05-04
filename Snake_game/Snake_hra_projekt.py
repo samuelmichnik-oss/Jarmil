@@ -190,7 +190,17 @@ def game_over(score):
     screen.blit(t2, (WIDTH//2-80, HEIGHT//2))
     screen.blit(t3, (WIDTH//2-150, HEIGHT//2+40))
     pygame.display.update()
-
+    for i in range(len(stars)):
+    x, y = stars[i]
+    y += 1
+    if y > HEIGHT:
+        y = 0
+    stars[i] = (x, y)
+   
+    
+    
+    
+    
     while True:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
@@ -200,6 +210,8 @@ def game_over(score):
                     fmain()
                 if e.key == pygame.K_q:
                     pygame.quit(); sys.exit()
+
+
 
 # -------------------
 # Start
