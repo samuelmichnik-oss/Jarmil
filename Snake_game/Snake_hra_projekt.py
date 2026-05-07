@@ -1,10 +1,8 @@
 import pygame              # import herní knihovny pygame
 import random              # import pro náhodná čísla
 import sys                 # import pro ukončení programu
-
 pygame.init()              # inicializace pygame
 pygame.mixer.init()        # inicializace zvuku
-
 WIDTH, HEIGHT = 800, 600   # rozměry okna
 CELL = 20                  # velikost jednoho políčka (grid)
 BASE_FPS = 10              # základní rychlost hry
