@@ -1,23 +1,35 @@
+# =========================
+# IMPORT KNIHOVEN
+# =========================
+
 import pygame
-# importuje knihovnu pygame pro tvorbu her
+# importuje knihovnu pygame pro tvorbu hry
 
 import random
 # importuje náhodná čísla
 
 import sys
-# importuje systémové funkce (např. ukončení programu)
+# importuje systémové funkce (ukončení programu)
+
+# =========================
+# ZAPNUTÍ PYGAME
+# =========================
 
 pygame.init()
-# zapne pygame moduly
+# inicializuje pygame
 
 pygame.mixer.init()
-# zapne zvuky
+# inicializuje zvuky
+
+# =========================
+# NASTAVENÍ OKNA
+# =========================
 
 WIDTH, HEIGHT = 800, 600
-# velikost okna hry
+# šířka a výška okna
 
 CELL = 20
-# velikost jednoho políčka hada
+# velikost jednoho políčka
 
 BASE_FPS = 10
 # základní rychlost hry
@@ -31,31 +43,44 @@ pygame.display.set_caption("Snake ULTRA MAX")
 clock = pygame.time.Clock()
 # vytvoří FPS časovač
 
+# =========================
+# BARVY
+# =========================
+
 WHITE = (255,255,255)
-# bílá barva
+# bílá
 
 BLACK = (0,0,0)
-# černá barva
+# černá
 
 GREEN = (0,255,0)
-# zelená barva
+# zelená
 
 RED = (255,0,0)
-# červená barva
+# červená
 
 ORANGE = (255,165,0)
-# oranžová barva
+# oranžová
 
 YELLOW = (255,255,0)
-# žlutá barva
+# žlutá
 
 BLUE = (0,150,255)
-# modrá barva
+# modrá
+
+# =========================
+# FONT
+# =========================
 
 font = pygame.font.SysFont(None, 32)
 # vytvoří font velikosti 32
 
+# =========================
+# SMĚRY POHYBU
+# =========================
+
 DIRS = {
+
     "UP": (0, -CELL),
     # pohyb nahoru
 
@@ -69,7 +94,12 @@ DIRS = {
     # pohyb doprava
 }
 
+# =========================
+# OPAČNÉ SMĚRY
+# =========================
+
 OPPOSITE = {
+
     "UP":"DOWN",
     # opačný směr k UP
 
@@ -83,10 +113,15 @@ OPPOSITE = {
     # opačný směr k RIGHT
 }
 
+# =========================
+# NÁHODNÁ POZICE
+# =========================
+
 def rand_cell():
-# funkce pro náhodnou pozici
+# vytvoří náhodnou pozici
 
     return (
+
         random.randrange(0, WIDTH, CELL),
         # náhodné X
 
@@ -94,13 +129,18 @@ def rand_cell():
         # náhodné Y
     )
 
+# =========================
+# KRESLENÍ OBJEKTŮ
+# =========================
+
 def draw_rects(objs, color):
-# funkce kreslení objektů
+# kreslí objekty
 
     for o in objs:
-    # projde všechny objekty
+    # projde objekty
 
         pygame.draw.rect(
+
             screen,
             # obrazovka
 
@@ -108,22 +148,31 @@ def draw_rects(objs, color):
             # barva
 
             (*o, CELL, CELL)
-            # pozice a velikost
+            # x y šířka výška
         )
 
+# =========================
+# HVĚZDY
+# =========================
+
 stars = [
+
     (random.randint(0, WIDTH), random.randint(0, HEIGHT))
-    # vytvoří náhodnou hvězdu
+    # náhodná hvězda
 
     for _ in range(100)
     # vytvoří 100 hvězd
 ]
 
+# =========================
+# POZADÍ
+# =========================
+
 def draw_bg():
-# funkce pozadí
+# vykreslí pozadí
 
     screen.fill(BLACK)
-    # vybarví pozadí černě
+    # vybarví obrazovku
 
     for x, y in stars:
     # projde hvězdy
@@ -131,50 +180,48 @@ def draw_bg():
         screen.set_at((x, y), WHITE)
         # vykreslí hvězdu
 
-def shop(coins, speed_lvl, size_lvl):
-# shop systém
+# =========================
+# SHOP
+# =========================
+
+def shop(coins, speed_lvl):
+# obchod
 
     while True:
-    # nekonečný loop shopu
+    # nekonečný loop
 
         screen.fill(BLACK)
-        # vyčistí obrazovku
+        # černé pozadí
 
         t1 = font.render("SHOP", True, YELLOW)
-        # text SHOP
+        # nadpis
 
         t2 = font.render(f"Coins: {coins}", True, WHITE)
-        # počet coinů
+        # coins
 
         t3 = font.render("1 = Speed +1 (5 coins)", True, WHITE)
         # upgrade rychlosti
 
-        t4 = font.render("2 = Smaller snake (5 coins)", True, WHITE)
-        # upgrade velikosti
-
-        t5 = font.render("ESC = back", True, WHITE)
+        t4 = font.render("ESC = BACK", True, WHITE)
         # návrat
 
-        screen.blit(t1, (350, 100))
+        screen.blit(t1, (340,100))
         # vykreslí text
 
-        screen.blit(t2, (350, 150))
+        screen.blit(t2, (320,180))
         # vykreslí text
 
-        screen.blit(t3, (250, 250))
+        screen.blit(t3, (200,280))
         # vykreslí text
 
-        screen.blit(t4, (250, 300))
-        # vykreslí text
-
-        screen.blit(t5, (250, 400))
+        screen.blit(t4, (260,400))
         # vykreslí text
 
         pygame.display.update()
-        # obnoví obrazovku
+        # refresh obrazovky
 
         for e in pygame.event.get():
-        # načte eventy
+        # event loop
 
             if e.type == pygame.QUIT:
             # zavření okna
@@ -191,8 +238,8 @@ def shop(coins, speed_lvl, size_lvl):
                 if e.key == pygame.K_ESCAPE:
                 # ESC
 
-                    return coins, speed_lvl, size_lvl
-                    # vrátí hodnoty
+                    return coins, speed_lvl
+                    # návrat do hry
 
                 if e.key == pygame.K_1 and coins >= 5:
                 # klávesa 1
@@ -203,17 +250,12 @@ def shop(coins, speed_lvl, size_lvl):
                     speed_lvl += 1
                     # přidá rychlost
 
-                if e.key == pygame.K_2 and coins >= 5:
-                # klávesa 2
-
-                    coins -= 5
-                    # odebere coins
-
-                    size_lvl += 1
-                    # přidá level velikosti
+# =========================
+# GAME OVER
+# =========================
 
 def game_over(score):
-# game over obrazovka
+# konec hry
 
     while True:
     # nekonečný loop
@@ -227,17 +269,321 @@ def game_over(score):
         t2 = font.render(f"Score: {score}", True, WHITE)
         # skóre
 
-        t3 = font.render("R = restart | Q = quit", True, WHITE)
-        # instrukce
+        t3 = font.render("R = Restart", True, WHITE)
+        # restart
 
-        screen.blit(t1, (300,200))
-        # vykreslení textu
+        t4 = font.render("Q = Quit", True, WHITE)
+        # quit
 
-        screen.blit(t2, (300,250))
-        # vykreslení textu
+        screen.blit(t1, (280,180))
+        # vykreslí text
 
-        screen.blit(t3, (220,320))
-        # vykreslení textu
+        screen.blit(t2, (310,250))
+        # vykreslí text
+
+        screen.blit(t3, (300,320))
+        # vykreslí text
+
+        screen.blit(t4, (320,380))
+        # vykreslí text
+
+        pygame.display.update()
+        # refresh
+
+        for e in pygame.event.get():
+        # event loop
+
+            if e.type == pygame.QUIT:
+            # zavření okna
+
+                pygame.quit()
+                # vypne pygame
+
+                sys.exit()
+                # ukončí program
+
+            if e.type == pygame.KEYDOWN:
+            # klávesa
+
+                if e.key == pygame.K_r:
+                # restart
+
+                    main()
+                    # znovu spustí hru
+
+                if e.key == pygame.K_q:
+                # quit
+
+                    pygame.quit()
+                    # vypne pygame
+
+                    sys.exit()
+                    # ukončí program
+
+# =========================
+# HLAVNÍ HRA
+# =========================
+
+def main():
+# hlavní funkce hry
+
+    snake = [(WIDTH//2, HEIGHT//2)]
+    # start hada
+
+    direction = "UP"
+    # start směr
+
+    food = rand_cell()
+    # jídlo
+
+    power = None
+    # powerup
+
+    coins = 0
+    # coins
+
+    score = 0
+    # score
+
+    speed_lvl = 0
+    # upgrade rychlosti
+
+    fps = BASE_FPS
+    # fps hry
+
+    paused = False
+    # pause stav
+
+    timer = 0
+    # timer
+
+    obstacles = [rand_cell() for _ in range(10)]
+    # překážky
+
+    while True:
+    # hlavní loop
+
+        clock.tick(fps + speed_lvl)
+        # fps hry
+
+        for e in pygame.event.get():
+        # event loop
+
+            if e.type == pygame.QUIT:
+            # zavření okna
+
+                pygame.quit()
+                # vypne pygame
+
+                sys.exit()
+                # ukončí program
+
+            if e.type == pygame.KEYDOWN:
+            # stisk klávesy
+
+                if e.key == pygame.K_p:
+                # pause
+
+                    paused = not paused
+                    # změní pause
+
+                if e.key == pygame.K_s:
+                # shop
+
+                    coins, speed_lvl = shop(coins, speed_lvl)
+                    # otevře shop
+
+                if e.key == pygame.K_SPACE:
+                # turbo
+
+                    fps = 20
+                    # zvýší fps
+
+                if e.key == pygame.K_UP and direction != "DOWN":
+                # nahoru
+
+                    direction = "UP"
+
+                if e.key == pygame.K_DOWN and direction != "UP":
+                # dolů
+
+                    direction = "DOWN"
+
+                if e.key == pygame.K_LEFT and direction != "RIGHT":
+                # doleva
+
+                    direction = "LEFT"
+
+                if e.key == pygame.K_RIGHT and direction != "LEFT":
+                # doprava
+
+                    direction = "RIGHT"
+
+            if e.type == pygame.KEYUP:
+            # puštění klávesy
+
+                if e.key == pygame.K_SPACE:
+                # konec turba
+
+                    fps = BASE_FPS
+                    # vrátí fps
+
+        if paused:
+        # pokud pause
+
+            draw_bg()
+            # vykreslí pozadí
+
+            text = font.render("PAUSED", True, WHITE)
+            # pause text
+
+            screen.blit(text, (330,280))
+            # vykreslí text
+
+            pygame.display.update()
+            # refresh
+
+            continue
+            # přeskočí loop
+
+        dx, dy = DIRS[direction]
+        # směr pohybu
+
+        head = (
+            snake[0][0] + dx,
+            snake[0][1] + dy
+        )
+        # nová hlava
+
+        snake.insert(0, head)
+        # přidá hlavu
+
+        if (
+            head[0] < 0 or
+            head[0] >= WIDTH or
+            head[1] < 0 or
+            head[1] >= HEIGHT or
+            head in snake[1:] or
+            head in obstacles
+        ):
+        # kolize
+
+            game_over(score)
+            # game over
+
+            return
+            # konec hry
+
+        if head == food:
+        # pokud sní jídlo
+
+            score += 1
+            # přidá score
+
+            coins += 1
+            # přidá coins
+
+            food = rand_cell()
+            # nové jídlo
+
+        else:
+        # jinak
+
+            snake.pop()
+            # smaže konec hada
+
+        timer += 1
+        # timer
+
+        if timer > 150 and not power:
+        # spawn powerupu
+
+            power = rand_cell()
+            # vytvoří powerup
+
+            timer = 0
+            # reset timeru
+
+        if power and head == power:
+        # sebrání powerupu
+
+            score += 5
+            # bonus score
+
+            coins += 3
+            # bonus coins
+
+            power = None
+            # odstraní powerup
+
+        draw_bg()
+        # vykreslí pozadí
+
+        for i, part in enumerate(snake):
+        # rainbow snake
+
+            color = (
+                (i * 5) % 255,
+                (255 - i * 3) % 255,
+                (i * 7) % 255
+            )
+            # rainbow barva
+
+            pygame.draw.rect(
+                screen,
+                color,
+                (*part, CELL, CELL)
+            )
+            # vykreslí hada
+
+        draw_rects(obstacles, ORANGE)
+        # překážky
+
+        draw_rects([food], RED)
+        # jídlo
+
+        if power:
+        # pokud existuje powerup
+
+            draw_rects([power], YELLOW)
+            # vykreslí powerup
+
+        screen.blit(
+            font.render(f"Score: {score}", True, WHITE),
+            (10,10)
+        )
+        # score text
+
+        screen.blit(
+            font.render(f"Coins: {coins}", True, WHITE),
+            (10,40)
+        )
+        # coins text
+
+        screen.blit(
+            font.render("S = Shop", True, BLUE),
+            (10,70)
+        )
+        # shop text
+
+        screen.blit(
+            font.render("P = Pause", True, BLUE),
+            (10,100)
+        )
+        # pause text
+
+        screen.blit(
+            font.render("SPACE = Turbo", True, BLUE),
+            (10,130)
+        )
+        # turbo text
 
         pygame.display.update()
         # refresh obrazovky
+
+# =========================
+# START HRY
+# =========================
+
+main()
+# spustí hru
