@@ -4,13 +4,10 @@
 
 import pygame
 # importuje knihovnu pygame pro tvorbu hry
-
 import random
 # importuje náhodná čísla
-
 import sys
 # importuje systémové funkce (ukončení programu)
-
 # =========================
 # ZAPNUTÍ PYGAME
 # =========================
@@ -515,8 +512,7 @@ def main():
 
             power = None
             # odstraní powerup
-
-        draw_bg()
+         draw_bg()
         # vykreslí pozadí
 
         for i, part in enumerate(snake):
