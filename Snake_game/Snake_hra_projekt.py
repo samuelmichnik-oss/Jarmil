@@ -1,4 +1,19 @@
+# =========================
+# IMPORT KNIHOVEN
+# =========================
 
+import pygame
+# importuje knihovnu pygame pro tvorbu hry
+import random
+# importuje náhodná čísla
+import sys
+# importuje systémové funkce (ukončení programu)
+# =========================
+# ZAPNUTÍ PYGAME
+# =========================
+
+pygame.init()
+# inicializuje pygame
 
 pygame.mixer.init()
 # inicializuje zvuky
